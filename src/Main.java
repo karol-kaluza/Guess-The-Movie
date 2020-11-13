@@ -11,7 +11,6 @@ public class Main {
         int lines = 0;
         while (scanner.hasNextLine()){
             String title = scanner.nextLine();
-            System.out.println(title);
             lines++;
         }
         System.out.println("Liczba tytułów w pliku: " + lines);
