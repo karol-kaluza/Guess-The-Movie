@@ -10,7 +10,7 @@ public class Main {
         File file = new File(fileName);
         Scanner scanFile = new Scanner(file);
 
-        int guessTitleAttempt = 0;
+        int guessTitleAttempt = 1;
         int guessLetterAttempt = 0;
 
         String [] titles = new String [25];
@@ -25,22 +25,24 @@ public class Main {
         GameLogic gameLogic = new GameLogic();
         String hiddenTitle = gameLogic.hideTitle(randomTitle);
         System.out.println("Hidden title: " + hiddenTitle);
-
-        System.out.println("Guess the movie title !");
-        System.out.println("Type a letter: ");
+        System.out.println("");
 
         Scanner scanUser = new Scanner(System.in);
-        String userTry = scanUser.nextLine();
-        char userTryChar = userTry.charAt(0);
-
-        if(!gameLogic.titleContainLetter(userTryChar, randomTitle)){        //user dint't guess letter in title
-            guessLetterAttempt++;
-            System.out.println("Unfortunately, the title doesn't contain this letter: " + userTry);
-        }else if (gameLogic.titleContainLetter(userTryChar, randomTitle)){
-            gameLogic.addLetterToHiddenTitle(userTryChar);
-            System.out.println("Hidden title: " + hiddenTitle);
+        String userTitle = scanUser.nextLine();
+        if (gameLogic.compareUserTitle (userTitle, randomTitle)){
+            System.out.println("Congratulation, that was your " + guessTitleAttempt + " attempt, you win !");
+        } else {
+            guessTitleAttempt++;
+            System.out.println("Guess letter: ");
+            String userChar = scanUser.nextLine();
+            char userTryChar = userChar.charAt(0);
+            if(!gameLogic.titleContainLetter(userTryChar, randomTitle)){        //user dint't guess letter in title
+                guessLetterAttempt++;
+                System.out.println("Unfortunately, the title doesn't contain this letter: " + userChar);
+            }else if (gameLogic.titleContainLetter(userTryChar, randomTitle)){
+                gameLogic.addLetterToHiddenTitle(userTryChar, randomTitle);
+            }
         }
-
 
 
 
