@@ -8,6 +8,7 @@ public class GuessMovie {
         String fileName = "Movies.txt";
         File file = new File(fileName);
         Scanner scanFile = new Scanner(file);
+        int attemptCounter = 0;
 
         String[] moviesTitle = new String[25];
         for (int i = 0; i < 25; i++) {
@@ -18,21 +19,23 @@ public class GuessMovie {
         int randomNumber = random.nextInt(24);
 
         String randomTitle = moviesTitle[randomNumber];
-        System.out.println("losowy film: " + randomTitle);
-        System.out.println("Podaj tytuł filmu:");
+        System.out.println("Guess the movie title:");
+        attemptCounter++;
         Scanner scanUser = new Scanner(System.in);
         String takeUserInput = scanUser.nextLine();
+        String hiddenTitle = randomTitle.replaceAll("\\S","_");
 
 
         boolean equals = false;
 
-        do {
-            if(takeUserInput.equals(randomTitle)){
-                System.out.println("Gratulacje, wygrałeś !");
+        while (!equals) {
+            if (takeUserInput.equals(randomTitle)) {
+                System.out.println("Congratulation, correct title is: \"" +
+                        randomTitle + "\". You win in yours " + attemptCounter + " attempt !");
                 equals = true;
                 break;
-            }else {
-                System.out.println("Podaj literę: ");
+            } else {
+                System.out.println("Unfortunetly is another title, guess a letter: ");
                 takeUserInput = scanUser.nextLine();
                 char userInputChar = takeUserInput.charAt(0);
 
@@ -42,19 +45,22 @@ public class GuessMovie {
                         builder.append(userInputChar);
                     } else if (randomTitle.charAt(i) == ' ') {
                         builder.append(' ');
+                    } else if (hiddenTitle.charAt(i) != '_') {
+                        builder.append(hiddenTitle.charAt(i));
                     } else {
                         builder.append('_');
                     }
                 }
-                String hiddenTitle = builder.toString();
-                System.out.println("Niepełny tytuł: " + hiddenTitle);
+                hiddenTitle = builder.toString();
+                System.out.println("Hidden title: " + hiddenTitle);
 
-                System.out.println("Podaj tytuł: ");
+                attemptCounter++;
+                System.out.println(" ");
+                System.out.println("It's your " + attemptCounter + " attempt. Try guess movie title: ");
                 takeUserInput = scanUser.nextLine();
             }
 
-        }while (equals == true);
-
+        }
 
 
     }
