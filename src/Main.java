@@ -11,7 +11,8 @@ public class Main {
         Scanner scanFile = new Scanner(file);
 
         int guessTitleAttempt = 1;
-        int guessLetterAttempt = 0;
+        int guessLetterAttempt = 1;
+        boolean isWin = false;
 
         String [] titles = new String [25];
         for (int i = 0; i < 25; i++) {
@@ -25,14 +26,17 @@ public class Main {
         GameLogic gameLogic = new GameLogic();
         String hiddenTitle = gameLogic.hideTitle(randomTitle);
         System.out.println("Hidden title: " + hiddenTitle);
-        System.out.println("");
+        System.out.println("Guess Movie Title: ");
 
         Scanner scanUser = new Scanner(System.in);
         String userTitle = scanUser.nextLine();
+        while (!isWin)
         if (gameLogic.compareUserTitle (userTitle, randomTitle)){
+            isWin = true;
             System.out.println("Congratulation, that was your " + guessTitleAttempt + " attempt, you win !");
         } else {
             guessTitleAttempt++;
+            System.out.println("Number of attempt: " + guessLetterAttempt);
             System.out.println("Guess letter: ");
             String userChar = scanUser.nextLine();
             char userTryChar = userChar.charAt(0);
@@ -40,7 +44,7 @@ public class Main {
                 guessLetterAttempt++;
                 System.out.println("Unfortunately, the title doesn't contain this letter: " + userChar);
             }else if (gameLogic.titleContainLetter(userTryChar, randomTitle)){
-                gameLogic.addLetterToHiddenTitle(userTryChar, randomTitle);
+                gameLogic.addLetterToHiddenTitle(userTryChar, randomTitle, hiddenTitle);
             }
         }
 
